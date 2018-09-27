@@ -29,26 +29,29 @@ def split_by_lang(message):
 
     return (eng_message, zh_message)
 
-files = os.listdir('./source')
-col_keyword = '功能描述'
+def load_source():
 
-# 一会用来存放所有xlsx文件数据的池子
-pool = []
+    files = os.listdir('./source')
+    col_keyword = '功能描述'
 
-for file in files:
-    wb = load_workbook(os.path.join(os.getcwd(), 'source', file)) 
-    ws = wb.active
-    # id_des = [(row[3].value, [row[3].value]) for row in ws]
-    id_des = []
-    double_description_col = col_keyword in ws['D1'].value
-    for row in ws.rows:
-        # print(row)
-        id = row[0].value
-        if double_description_col:
-            description = (row[2].value, row[3].value)
-        else:
-            description = split_by_lang(row[2].value)
-        id_des.append((id, description))
-    pool.extend(id_des)    
+    # 一会儿用来存放所有xlsx文件数据的池子
+    pool = []
 
-print(pool)
+    for file in files:
+        wb = load_workbook(os.path.join(os.getcwd(), 'source', file)) 
+        ws = wb.active
+        # id_des = [(row[3].value, [row[3].value]) for row in ws]
+        id_des = []
+        double_description_col = col_keyword in ws['D1'].value
+        for row in ws.rows:
+            # print(row)
+            id = row[0].value
+            if double_description_col:
+                description = (row[2].value, row[3].value)
+            else:
+                description = split_by_lang(row[2].value)
+            id_des.append((id, description))
+        pool.extend(id_des)    
+        wb.close()
+
+    return pool

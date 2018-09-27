@@ -1,10 +1,13 @@
 import os
-# import collections
 from openpyxl import load_workbook
+
+def split_by_lang(message):
+    # TODO 根据\n的位置，把message里的中文和英文分开
+    splited_message = []
+    return splited_message
 
 files = os.listdir('./source')
 col_keyword = '功能描述'
-# Cell = collections.namedtuple('Cell', ['ID', 'description'])
 
 pool = []
 for file in files:
@@ -16,9 +19,10 @@ for file in files:
     for row in ws.rows:
         # print(row)
         id = row[0].value
-        description = [row[2].value]
         if double_description_col:
-            description.append(row[3].value)
+            description = [row[2].value, row[3].value]
+        else:
+            description = split_by_lang(row[2])
         id_des.append((id, description))
     pool.extend(id_des)    
 

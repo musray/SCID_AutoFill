@@ -24,10 +24,10 @@ def split_by_lang(message):
         eng_message = r2[0]
         zh_message = re.sub(eng_message, '', message)
     else:
-        eng_message = None
-        zh_message = None
+        eng_message = 'None'
+        zh_message = 'None'
 
-    return (eng_message, zh_message)
+    return (eng_message.strip(), zh_message.strip())
 
 def load_source():
 

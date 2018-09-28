@@ -67,7 +67,6 @@ if __name__ == '__main__':
     # print(os.getcwd())
     input('先确认 source, target, output 三个文件夹是否存在\n然后回车开始....')
     try:
-        1/0
         print('工作中....请稍等....')
         target_files = [file for file in os.listdir('./target') if file.endswith(('xlsm', 'xlsx'))]
         for file in target_files:

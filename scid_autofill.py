@@ -67,15 +67,16 @@ if __name__ == '__main__':
     # print(os.getcwd())
     input('先确认 source, target, output 三个文件夹是否存在\n然后回车开始....')
     try:
+        1/0
         print('工作中....请稍等....')
         target_files = [file for file in os.listdir('./target') if file.endswith(('xlsm', 'xlsx'))]
         for file in target_files:
             main(os.path.join('./target', file))
+        input('转换完成，在 output 文件夹中查看新生成的文件\n回车退出....')
     except Exception as e:
-        with open('log.txt', 'w') as f:
+        with open('log.txt', 'w+') as f:
             f.write(str(e))
             f.write(traceback.format_exc())
-        print('有错误发生，转换终止，错误信息参考 log.txt')
+        input('有错误发生，转换终止，错误信息参考 log.txt\n回车退出....')
     
-    input('转换完成，在 output 文件夹中查看新生成的文件\n回车退出....')
         

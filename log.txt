@@ -1,0 +1,4 @@
+division by zeroTraceback (most recent call last):
+  File "/Users/churui/Coding/SCID_AutoFill/scid_autofill.py", line 70, in <module>
+    1/0
+ZeroDivisionError: division by zero

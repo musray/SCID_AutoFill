@@ -64,12 +64,16 @@ def main(target_file):
     target_wb.close()
 
 if __name__ == '__main__':
+    # print(os.getcwd())
+    input('确认 source, target, output 三个文件夹是否存在\n回车开始....')
     try:
+        1/0
         target_files = [file for file in os.listdir('./target') if file.endswith(('xlsm', 'xlsx'))]
         for file in target_files:
             main(os.path.join('./target', file))
     except Exception as e:
-        with open('log.txt') as f:
+        with open('log.txt', 'w') as f:
             f.write(str(e))
             f.write(traceback.format_exc())
+        print('有错误发生，转换终止，错误信息参考 log.txt')
         

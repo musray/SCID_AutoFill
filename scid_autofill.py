@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import traceback
 import collections
 from openpyxl import load_workbook
 from load_source import load_source
@@ -63,9 +64,12 @@ def main(target_file):
     target_wb.close()
 
 if __name__ == '__main__':
-
-    target_files = [file for file in os.listdir('./target') if file.endswith(('xlsm', 'xlsx'))]
-    for file in target_files:
-        main(os.path.join('./target', file))
-
+    try:
+        target_files = [file for file in os.listdir('./target') if file.endswith(('xlsm', 'xlsx'))]
+        for file in target_files:
+            main(os.path.join('./target', file))
+    except Exception as e:
+        with open('log.txt') as f:
+            f.write(str(e))
+            f.write(traceback.format_exc())
         

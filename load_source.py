@@ -9,23 +9,26 @@ def split_by_lang(message):
     # 2. 以`\n`或^开头
     # 3. 以`\n`或&结尾
 
+    # message = str(message)
     # 应对后英文先中文的情况
     pattern1 = r'(\n[a-zA-Z0-9 \n]+)$'
     # 应对先英文后中文的情况
     pattern2 = r'(^[a-zA-Z0-9 \n]+)\n'
 
-    r1 = re.findall(pattern1, message)
-    r2 = re.findall(pattern2, message)
 
-    if r1:
-        eng_message = r1[0]
-        zh_message = re.sub(eng_message, '', message)
-    elif r2:
-        eng_message = r2[0]
-        zh_message = re.sub(eng_message, '', message)
-    else:
-        eng_message = 'None'
-        zh_message = 'None'
+    eng_message = ''
+    zh_message = ''
+
+    if message:
+        r1 = re.findall(pattern1, message)
+        r2 = re.findall(pattern2, message)
+
+        if r1:
+            eng_message = r1[0]
+            zh_message = re.sub(eng_message, '', message)
+        elif r2:
+            eng_message = r2[0]
+            zh_message = re.sub(eng_message, '', message)
 
     return (eng_message.strip(), zh_message.strip())
 
@@ -45,11 +48,12 @@ def load_source():
         double_description_col = col_keyword in ws['D1'].value
         for row in ws.rows:
             # print(row)
-            id = row[0].value
+            id = str(row[0].value)
             if double_description_col:
                 description = (row[2].value, row[3].value)
             else:
                 description = split_by_lang(row[2].value)
+                print(description)
             id_des.append((id, description))
         pool.extend(id_des)    
         wb.close()

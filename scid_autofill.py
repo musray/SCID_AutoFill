@@ -1,9 +1,17 @@
 # -*- coding: utf-8 -*-
+import re
 import os
 import traceback
 import collections
 from openpyxl import load_workbook
 from load_source import load_source
+
+def source_id_lookup(id, source_list):
+    for item in source_list:
+        if id in item:
+            # print('line 12, id %s, item, %s' % (id, item))
+            return item
+    return False
 
 def long_str_split(message):
     
@@ -53,9 +61,16 @@ def main(target_file):
             # target_cells = []
             # 对于当前sheet，H列(点名)的每个cell来说
             for cell in sheet['H'][7:]:
-                if cell.value and (cell.value.strip() in source_ids):
+                # TODO 写一个source_id_lookup功能
+                # if cell.value and (cell.value.strip() in source_ids):
+                if cell.value:
+                    # print('line 65 cell.value', cell.value)
+                    source_id = source_id_lookup(cell.value.strip(), source_ids)
+                if source_id:
+                    # print('line 69 source_id', source_id)
                     # 从source_pool里拿出与点名对应的描述
-                    description = source_pool[source_ids.index(cell.value.strip())][1]
+                    description = source_pool[source_ids.index(source_id)][1]
+                    # print(description)
                     for index, item in enumerate(long_str_split(description[lang_selector])):
                         sheet['K'+str(iteror+1+index)].value = item 
                 iteror += 1
@@ -65,7 +80,7 @@ def main(target_file):
 
 if __name__ == '__main__':
     # print(os.getcwd())
-    input('先确认 source, target, output 三个文件夹是否存在\n然后回车开始....')
+    # input('先确认 source, target, output 三个文件夹是否存在\n然后回车开始....')
     try:
         print('工作中....请稍等....')
         target_files = [file for file in os.listdir('./target') if file.endswith(('xlsm', 'xlsx'))]
